@@ -26,7 +26,6 @@ export default function RootLayout({ children }) {
           {children}
         </main>
         <Player/>
-        
       </body>
     </html>
   );
