@@ -3,6 +3,8 @@ import "./styles/global.scss"
 import styles from "./styles/app.module.scss";
 import { Header } from "./components/Header";
 import { Player } from "./components/Player";
+import { PlayerContextProvider } from "./contexts/PlayerContext";
+
 
 const inter = Inter({
   weight: "500",
@@ -20,12 +22,16 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+     
       <body className={`${inter.className} ${styles.wrapper}`}>
+        <PlayerContextProvider>
         <main>
           <Header />
           {children}
         </main>
         <Player/>
+        </PlayerContextProvider>
+        
       </body>
     </html>
   );

@@ -1,10 +1,20 @@
+'use client'
+import { useContext } from 'react';
 import styles from './styles.module.scss';
-export function Player() {
+import { PlayerContext } from '../../contexts/PlayerContext';
+
+export function Player() {    
+    const { episodeList, currentEpisodeIndex } = useContext(PlayerContext);
+
+    const episode = episodeList[currentEpisodeIndex];
+    
     return (
         <div className={styles.playerContainer}>
             <header>
                 <img src="/playing.svg" alt="Tocando Agora" />
-                <strong>Tocando Agora</strong>
+               
+                <strong>Tocando Agora {episode?.title}</strong>
+              
             </header>
             <div className={styles.emptyPlayer}>
                 <strong>Selecione um podcast para ouvir</strong>
@@ -23,7 +33,7 @@ export function Player() {
                         <img src="/play-previous.svg" alt="Tocar Anterior"/>
                     </button>
                     <button type="button" className={styles.playButton}>
-                        <img src="/play.svg" alt="Tocar"/>
+                        <img src="/play.svg" alt="Tocar episódio"/>
                     </button>
                     <button type="button">
                         <img src="/play-next.svg" alt="Tocar próxima"/>

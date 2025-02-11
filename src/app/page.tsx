@@ -1,3 +1,4 @@
+'use client'
 import Image from "next/image";
 import { format } from "date-fns/format";
 import { api } from "./services/api";
@@ -6,8 +7,11 @@ import { ptBR } from "date-fns/locale/pt-BR";
 import { convertDurationToTimeString } from "./utils/convertDurationToTimeString";
 import Link from "next/link";
 import styles from "./home.module.scss";
+import { useContext } from "react";
+import { PlayerContext } from "./contexts/PlayerContext";
 
-type Episode = {
+
+export type Episode = {
   id: string;
   title: string;
   thumbnail: string;
@@ -18,9 +22,9 @@ type Episode = {
     type?: string;
     duration: number;
   };
-  description: string;
 };
 export default async function Home() {
+  const {play} = useContext(PlayerContext);
   const response = await api.get("http://localhost:3333/episodes", {
     params: { _limit: 12, _sort: "published_at", _order: "desc" },
   });
@@ -36,7 +40,6 @@ export default async function Home() {
       }),
       duration: Number(ep.file.duration),
       durationAsString: convertDurationToTimeString(Number(ep.file.duration)),
-      description: ep.description,
       url: ep.file.url,
     };
   });
@@ -60,7 +63,7 @@ export default async function Home() {
                 <span>{ep.publishedAt}</span>
                 <span>{ep.durationAsString}</span>
               </div>
-              <button type="button">
+              <button onClick={()=>play(ep)} type="button">
                 <img src="/play-green.svg" alt="Tocar Episódio"/>
               </button>
             </li>
@@ -78,7 +81,6 @@ export default async function Home() {
             <th>Duração</th>
             <th></th>
             </tr>
-            
           </thead>
           <tbody>
             {allEpisodes.map(ep => <tr key={ep.id}>
