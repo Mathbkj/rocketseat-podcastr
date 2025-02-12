@@ -1,6 +1,5 @@
 'use client'
-import { useContext } from "react";
-import { PlayerContext } from "../contexts/PlayerContext";
+import { usePlayer } from "../contexts/PlayerContext";
 import Image from "next/image";
 
 type Props = {
@@ -9,7 +8,7 @@ type Props = {
 }
 
 export function PlayerBox(props:Props) {
-    const { episodeList, currentEpisodeIndex } = useContext(PlayerContext);
+    const { episodeList, currentEpisodeIndex } = usePlayer();
     const episode = episodeList[currentEpisodeIndex];
     return <>
         {

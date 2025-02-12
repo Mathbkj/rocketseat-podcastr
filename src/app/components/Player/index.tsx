@@ -4,6 +4,12 @@ import { PlayerBox } from '../../clientcomps/PlayerBox';
 import { SliderComp } from '../../clientcomps/SliderComp';
 import { PlayerAudio } from '../../clientcomps/PlayerAudio';
 import { PlayerButton } from '../../clientcomps/PlayerButton';
+import { PlayerButtonBefore } from '../../clientcomps/PlayerButtonBefore';
+import { PlayerButtonNext } from '../../clientcomps/PlayerButtonNext';
+import { PlayerButtonRepeat } from '../../clientcomps/PlayerButtonRepeat';
+import { PlayerButtonShuffle } from '../../clientcomps/PlayerButtonSuffle';
+import { EpisodeDuration } from '../../clientcomps/EpisodeDuration';
+import { DurationProgress } from '../../clientcomps/DurationProgress';
 
 export function Player() {
     /*const { episodeList, currentEpisodeIndex } = useContext(PlayerContext);*/
@@ -26,30 +32,19 @@ export function Player() {
             <PlayerBox emptyPlayer={styles.emptyPlayer} currentEpisode={styles.currentEpisode} />
             <footer className={styles.empty}>
                 <div className={styles.progress}>
-                    <span>00:00</span>
+                    <DurationProgress/>
                     <div className={styles.slider}>
                         <SliderComp emptyClassName={styles.emptySlider} />
                     </div>
-                    <span>00:00</span>
+                    <EpisodeDuration/>
                 </div>
                 <PlayerAudio/>
-                <div className={styles.buttons}>
-                    <button type="button">
-                        <img src="/shuffle.svg" alt="Embaralhar"/>
-                    </button>
-                    <button type="button">
-                        <img src="/play-previous.svg" alt="Tocar Anterior"/>
-                    </button>
-                    {/*<button type="button" className={styles.playButton}>
-                        <PlayerImage/>
-                    </button>*/}
+                <div className={styles.buttons}>         
+                    <PlayerButtonShuffle activeClassName={styles.isActive} />
+                    <PlayerButtonBefore/>
                     <PlayerButton playButton={styles.playButton} />
-                    <button type="button">
-                        <img src="/play-next.svg" alt="Tocar próxima"/>
-                    </button>
-                    <button type="button">
-                       <img src="/repeat.svg" alt="Repetir"/>
-                    </button>
+                    <PlayerButtonNext/>
+                    <PlayerButtonRepeat activeClassName={styles.isActive} />
                 </div>
             </footer>
         </div>

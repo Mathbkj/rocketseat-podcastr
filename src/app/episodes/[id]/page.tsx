@@ -9,6 +9,9 @@ import styles from "./episode.module.scss";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { PlayerButton } from "../../clientcomps/PlayerButton";
+import { HomeButton } from "../../clientcomps/HomeButton";
+import { PlayerEpisode } from "../../clientcomps/PlayerEpisode";
 
 type ThisEpisode = Episode & {
     description: string;
@@ -65,9 +68,7 @@ export default function Episode() {
             </Link>
             
             <Image width={700} height={300} src={ep.thumbnail} objectFit="cover" alt="" />
-            <button type="button">
-                <img src="/play.svg" alt="Tocar episódio"/>
-            </button>
+            <PlayerEpisode title={ep.title} members={ep.members} thumbnail={ep.thumbnail} duration={ep.duration} url={ep.url} />
         </div>
         <header>
             <h1>{ep.title}</h1>

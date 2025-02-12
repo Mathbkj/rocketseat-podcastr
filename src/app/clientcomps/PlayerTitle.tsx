@@ -1,9 +1,9 @@
 'use client'
-import { useContext, useEffect, useState } from "react";
-import { PlayerContext } from "../contexts/PlayerContext";
+import { useEffect, useState } from "react";
+import { usePlayer } from "../contexts/PlayerContext";
 
 export function PlayerTitle() {
-    const { episodeList, currentEpisodeIndex } = useContext(PlayerContext);
+    const { episodeList, currentEpisodeIndex } = usePlayer();
     const episode = episodeList[currentEpisodeIndex];
     const [_, forceUpdate] = useState(0);
     useEffect(() => {

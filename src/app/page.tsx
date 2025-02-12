@@ -6,7 +6,8 @@ import { ptBR } from "date-fns/locale/pt-BR";
 import { convertDurationToTimeString } from "./utils/convertDurationToTimeString";
 import Link from "next/link";
 import styles from "./home.module.scss";
-import { HomeButton } from "./clientcomps/HomeButton";
+import { CtxEpisode } from "./contexts/PlayerContext";
+import { MainButton } from "./clientcomps/MainButton";
 
 export type Episode = {
   id: string;
@@ -45,12 +46,13 @@ export default async function Home() {
   );
   console.log(latestEpisodes);
   const allEpisodes = formatData.slice(2, formatData.length);
+  const episodeList:CtxEpisode[] = [...latestEpisodes, ...allEpisodes];
   return (
     <div className={styles.homepage}>
       <section className={styles.latestEpisodes}>
         <h2>Últimos lançamentos</h2>
         <ul>
-          {latestEpisodes.map((ep) => (
+          {latestEpisodes.map((ep,index) => (
             <li key={ep.id}>
               <Image
                 width={90}
@@ -66,18 +68,7 @@ export default async function Home() {
                 <span>{ep.publishedAt}</span>
                 <span>{ep.durationAsString}</span>
               </div>
-              {/*<button onClick={() => play(ep)} type="button">
-                <img src="/play-green.svg" alt="Tocar Episódio" />
-              </button>*/}
-              
-                <HomeButton
-                  title={ep.title}
-                  thumbnail={ep.thumbnail}
-                  members={ep.members}
-                  duration={ep.duration}
-                  url={ep.url}
-                />
-              
+              <MainButton list={episodeList} index={index} />         
             </li>
           ))}
         </ul>
@@ -95,7 +86,7 @@ export default async function Home() {
             </tr>
           </thead>
           <tbody>
-            {allEpisodes.map((ep) => (
+            {allEpisodes.map((ep,index) => (
               <tr key={ep.id}>
                 <td>
                   <Image
@@ -112,13 +103,7 @@ export default async function Home() {
                 <td style={{ width: 100 }}>{ep.publishedAt}</td>
                 <td>{ep.durationAsString}</td>
                 <td>
-                <HomeButton
-                  title={ep.title}
-                  thumbnail={ep.thumbnail}
-                  members={ep.members}
-                  duration={ep.duration}
-                  url={ep.url}
-                />
+                  <MainButton list={episodeList} index={index + latestEpisodes.length} />
                 </td>
               </tr>
             ))}

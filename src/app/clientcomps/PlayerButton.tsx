@@ -1,13 +1,12 @@
 'use client'
-import { useContext } from "react";
-import { PlayerContext } from "../contexts/PlayerContext";
+import { usePlayer } from "../contexts/PlayerContext";
 
 type Props = {
     playButton: string;
 }
 
 export function PlayerButton(props:Props) {
-    const { isPlaying,togglePlay } = useContext(PlayerContext);
+  const { isPlaying, togglePlay } = usePlayer();
     return <>
        <button type="button" onClick={togglePlay} className={props.playButton}>
         {isPlaying ? (<img src="/pause.svg"/>) : (<img src="/play.svg"/>)}
