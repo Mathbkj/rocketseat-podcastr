@@ -1,4 +1,3 @@
-'use client'
 import Image from "next/image";
 import { format } from "date-fns/format";
 import { api } from "./services/api";
@@ -7,9 +6,7 @@ import { ptBR } from "date-fns/locale/pt-BR";
 import { convertDurationToTimeString } from "./utils/convertDurationToTimeString";
 import Link from "next/link";
 import styles from "./home.module.scss";
-import { useContext } from "react";
-import { PlayerContext } from "./contexts/PlayerContext";
-
+import { HomeButton } from "./clientcomps/HomeButton";
 
 export type Episode = {
   id: string;
@@ -24,7 +21,6 @@ export type Episode = {
   };
 };
 export default async function Home() {
-  const {play} = useContext(PlayerContext);
   const response = await api.get("http://localhost:3333/episodes", {
     params: { _limit: 12, _sort: "published_at", _order: "desc" },
   });
@@ -43,7 +39,10 @@ export default async function Home() {
       url: ep.file.url,
     };
   });
-  const latestEpisodes = formatData.slice(formatData.length-2,formatData.length);
+  const latestEpisodes = formatData.slice(
+    formatData.length - 2,
+    formatData.length
+  );
   console.log(latestEpisodes);
   const allEpisodes = formatData.slice(2, formatData.length);
   return (
@@ -53,19 +52,32 @@ export default async function Home() {
         <ul>
           {latestEpisodes.map((ep) => (
             <li key={ep.id}>
-              <Image width={90} height={90} src={ep.thumbnail} alt={ep.title} objectFit="cover" />
+              <Image
+                width={90}
+                height={90}
+                src={ep.thumbnail}
+                alt={ep.title}
+                objectFit="cover"
+              />
               <div className={styles.episodeDetails}>
-                <Link href={`/episodes/${ep.id}`}>
-                {ep.title}
-                </Link>
-                
+                <Link href={`/episodes/${ep.id}`}>{ep.title}</Link>
+
                 <p>{ep.members}</p>
                 <span>{ep.publishedAt}</span>
                 <span>{ep.durationAsString}</span>
               </div>
-              <button onClick={()=>play(ep)} type="button">
-                <img src="/play-green.svg" alt="Tocar Episódio"/>
-              </button>
+              {/*<button onClick={() => play(ep)} type="button">
+                <img src="/play-green.svg" alt="Tocar Episódio" />
+              </button>*/}
+              
+                <HomeButton
+                  title={ep.title}
+                  thumbnail={ep.thumbnail}
+                  members={ep.members}
+                  duration={ep.duration}
+                  url={ep.url}
+                />
+              
             </li>
           ))}
         </ul>
@@ -75,30 +87,41 @@ export default async function Home() {
         <table cellSpacing={0}>
           <thead>
             <tr>
-            <th>Podcast</th>
-            <th>Integrantes</th>
-            <th>Data</th>
-            <th>Duração</th>
-            <th></th>
+              <th>Podcast</th>
+              <th>Integrantes</th>
+              <th>Data</th>
+              <th>Duração</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
-            {allEpisodes.map(ep => <tr key={ep.id}>
-              <td><Image width={120} height={120} src={ep.thumbnail} alt={ep.title} /></td>
-              <td>
-                <Link href={`/episodes/${ep.id}`}>
-                {ep.title}
-                </Link>   
-              </td>
-              <td>{ep.members}</td>
-              <td style={{width:100}}>{ep.publishedAt}</td>
-              <td>{ep.durationAsString}</td>
-              <td>
-                <button type="button">
-                  <img src="/play-green.svg" alt="Tocar episódio"></img>
-                </button>
-              </td>
-            </tr>)}
+            {allEpisodes.map((ep) => (
+              <tr key={ep.id}>
+                <td>
+                  <Image
+                    width={120}
+                    height={120}
+                    src={ep.thumbnail}
+                    alt={ep.title}
+                  />
+                </td>
+                <td>
+                  <Link href={`/episodes/${ep.id}`}>{ep.title}</Link>
+                </td>
+                <td>{ep.members}</td>
+                <td style={{ width: 100 }}>{ep.publishedAt}</td>
+                <td>{ep.durationAsString}</td>
+                <td>
+                <HomeButton
+                  title={ep.title}
+                  thumbnail={ep.thumbnail}
+                  members={ep.members}
+                  duration={ep.duration}
+                  url={ep.url}
+                />
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </section>

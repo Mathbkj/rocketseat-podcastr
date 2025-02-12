@@ -22,17 +22,15 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-     
+      <PlayerContextProvider>
       <body className={`${inter.className} ${styles.wrapper}`}>
-        <PlayerContextProvider>
         <main>
           <Header />
           {children}
         </main>
-        <Player/>
-        </PlayerContextProvider>
-        
-      </body>
+        <Player/> 
+        </body>
+      </PlayerContextProvider>
     </html>
   );
 }
